@@ -1,0 +1,162 @@
+/* ghayas_responsive.css
+   Responsive layer for ghayas_chatbot_full.html
+   - Adds breakpoints and flexible layout rules
+   - Overrides only what blocks responsiveness (overflow etc.)
+   - DOES NOT change colors, fonts, or design tokens
+*/
+
+/* Allow scrolling on small screens (your original had overflow:hidden) */
+html, body {
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make container and header flexible on all screens */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  height: auto;
+  min-height: calc(100vh - 72px);
+}
+
+/* chat-panel should flex and grow, but be constrained on very narrow devices */
+.chat-panel {
+  flex: 1 1 640px;
+  min-width: 280px;
+  max-width: 100%;
+  height: calc(100vh - 140px);
+}
+
+/* make iframe use available area and be accessible for mobile */
+.chat-frame {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 420px;
+  border: none;
+}
+
+/* Floating controls become bottom bar on small screens */
+.floating {
+  transition: all .18s ease;
+}
+
+/* Ensure buttons are touch-friendly everywhere */
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 14px;
+  touch-action: manipulation;
+  font-size: 0.95rem;
+}
+
+/* Sidebar behaviour on small screens */
+.sidebar {
+  width: 260px;
+  max-width: 80%;
+}
+
+/* Tool popups should adapt width/height */
+.tool {
+  width: 340px;
+  max-width: 94%;
+  max-height: 80vh;
+  right: 12px;
+  bottom: 12px;
+  padding: 14px;
+  overflow: auto;
+}
+
+/* Auth modal adapt */
+.auth-box {
+  width: min(420px, 92%);
+  margin: 12px;
+}
+
+/* Stack modal and cards scale down on small screens */
+.stack-modal {
+  width: min(95%, 720px);
+  height: auto;
+  max-height: 86vh;
+}
+.stack-area { height: min(60vh, 420px); }
+
+/* Make clickable areas larger on touch devices */
+.small-btn, .link-card a, .sidebar button {
+  min-height: 44px;
+  padding: 10px;
+}
+
+/* Utility for center headings on small */
+header > div { display:flex; flex-direction:column; align-items:center; gap:4px; }
+
+/* Respect orientation and foldable narrow widths */
+@media (max-width: 1100px) {
+  .container { padding: 10px; gap:10px; }
+  .chat-panel { flex-basis: 100%; height: calc(100vh - 160px); min-height: 520px; }
+  .floating { right: 12px; top: 12px; }
+  .menu-btn { left: 10px; top: 10px; }
+  header { padding: 12px; }
+}
+
+/* For tablets / portrait phones */
+@media (max-width: 900px) {
+  .floating {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    padding: 8px;
+    background: linear-gradient(90deg, rgba(11,15,26,0.7), rgba(15,23,42,0.6));
+    z-index: 999;
+  }
+
+  header h1 { font-size: 1.05rem; margin-left: 0 !important; }
+  .subtitle { margin-left: 0 !important; font-size: 0.78rem; }
+
+  .container { height: auto; min-height: calc(100vh - 80px); }
+  .chat-panel { height: calc(100vh - 160px); min-height: 420px; }
+
+  .tool { right: 6px; bottom: 72px; width: 92%; }
+  .menu-btn { left: 8px; top: 8px; }
+  .sidebar { left: -100%; } /* force hidden by default on tiny screens */
+  .sidebar.open { left: 0; top: 0; z-index: 999; }
+}
+
+/* Narrow / small phones */
+@media (max-width: 480px) {
+  .btn { padding: 9px 10px; font-size: 0.92rem; border-radius: 10px; }
+  .chat-frame { min-height: 360px; }
+  .header, header { padding: 10px; }
+  .auth-box { width: 94%; padding: 12px; }
+  .stack-modal { height: auto; padding-bottom: 18px; }
+}
+
+/* Large screens and TVs: make sure things don't look tiny */
+@media (min-width: 1600px) {
+  .chat-panel { min-width: 900px; }
+  header h1 { font-size: 1.5rem; }
+  .btn { font-size: 1rem; padding: 12px 18px; }
+}
+
+/* Accessibility: visible focus state (doesn't change look, just outlines) */
+button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(100,150,255,0.12);
+  outline-offset: 2px;
+}
+
+/* Ensure flashcards scale smoothly */
+.card { width: min(92%, 420px); height: auto; padding: 18px; box-sizing: border-box; }
+.card.front, .card.back { height: auto; min-height: 180px; }
+
+/* Small helper to ensure the tools don't overflow on very narrow foldable panels */
+@media (max-height: 420px) {
+  .tool { max-height: 70vh; overflow:auto; }
+}
+
+/* Keep original colors and gradients — we only changed sizing and flow */
